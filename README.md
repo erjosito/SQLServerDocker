@@ -40,6 +40,7 @@ One of the main benefits of Linux containers is their portability. For example, 
 * git clone http://github.com/erjosito/SQLServerDocker YourDirectory
 * git checkout -b mynewbranch
 * Change the code in web-centos/index.php, for example the variables at the beginning of the script (set $label1 and $label2 to other words of your choice, for example)
+* docker build -t centos\_httpd\_php web-centos (creates locally the image required for the web tier of our app) 
 * docker-compose up -d: verify that the application is now working as expected
 * git commit -a
 * git push --set-upstream origin mynewbranch
