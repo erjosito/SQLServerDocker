@@ -17,14 +17,27 @@ Launching SQL Server in a Linux container is very easy, as documented in https:/
 
  * docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=MyVeryStrongPassw0rd!" -e "MSSQL_PID=Developer" -p 1401:1433 --name sqlserver1 -d microsoft/mssql-server-linux
  * docker ps
- * sqlcmd -S YOURMACHINENAME,1401 -U SA -P MyVeryStrongPassw0rd! -Q "SELECT @@VERSION"
+ * sqlcmd -S YOURPCNAME,1401 -U SA -P MyVeryStrongPassw0rd! -Q "SELECT @@VERSION"
  * docker rm -f sqlserver1
 
  ## 2. SQL Server packaged in a Docker application
 
-**Prerequisites**: a Windows laptop with git and Docker installed (verify that the docker-compose is installed to by running docker-compose -v).
+**Prerequisites**: a Windows laptop with git and Docker installed (verify that the docker-compose is installed too by running docker-compose -v).
 
 A SQL Server on its own cannot do much, a database is only useful as part of an application. You can use docker-compose to describe application stacks made out of multiple containers. This example demonstrates a Web server (using httpd and PHP) packaged along SQL Server.
 
- * git clone
+ * git clone http://github.com/erjosito/SQLServerDocker YourDirectory
+ * cd YourDirectory
+ * docker-compose up -d
+ * Browse with your favorite browser to the URL http://YOURPCNAME:8080 and verify that the Web page is showing correctly, and the Vote buttons work
 
+ ## 3. Portability of SQL Server containers to other platforms
+
+ **Prerequisites**: a non-Windows laptop (for example a Mac) with git and docker installed
+
+One of the main benefits of Linux containers is their portability. For example, you can have a team of developers working on both Windows and Mac OS X, and collaborating with each other. Besides, as the next demo item will follow, portability to a production DC (on premises or in the public cloud) is possible as well.
+
+* Make a new branch of the project
+  * git checkout -b mynewbranch
+  * git push --set-upstream origin mynewbranch
+  * Change the code in web-centos/index.php, for example the variables at the beginning of the script (set $label1 and $label2 to other words of your choice, for example)
