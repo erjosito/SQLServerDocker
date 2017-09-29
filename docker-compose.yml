@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    image: centos_httpd_php
+    ports:
+     - "8080:80"
+  sqlserver:
+    image: "microsoft/mssql-server-linux"
+    environment:
+     - ACCEPT_EULA=Y
+     - MSSQL_SA_PASSWORD=Microsoft123!
+     - MSSQL_PID=Developer
+    ports:
+     - "1401:1433"

@@ -1,0 +1,1 @@
+/opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P Microsoft123! -Q "set nocount on; SELECT @@VERSION" -h -1 -W
