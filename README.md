@@ -37,7 +37,23 @@ A SQL Server on its own cannot do much, a database is only useful as part of an 
 
 One of the main benefits of Linux containers is their portability. For example, you can have a team of developers working on both Windows and Mac OS X, and collaborating with each other. Besides, as the next demo item will follow, portability to a production DC (on premises or in the public cloud) is possible as well.
 
-* Make a new branch of the project
-  * git checkout -b mynewbranch
-  * git push --set-upstream origin mynewbranch
-  * Change the code in web-centos/index.php, for example the variables at the beginning of the script (set $label1 and $label2 to other words of your choice, for example)
+* git clone http://github.com/erjosito/SQLServerDocker YourDirectory
+* git checkout -b mynewbranch
+* Change the code in web-centos/index.php, for example the variables at the beginning of the script (set $label1 and $label2 to other words of your choice, for example)
+* docker-compose up -d: verify that the application is now working as expected
+* git commit -a
+* git push --set-upstream origin mynewbranch
+
+## 4. Deployment to production in an ACS cluster
+
+**Prerequisites**: a working ACS cluster, a working Jenkins server connected to the Github account, a Docker Hub account to publish the new builds
+
+Due to the prerequisites for this lab, you probably want to prepare all this in advance. The idea here is to take the concept one step forward and have the code automatically pushed to the cloud, with no further changes. For this we will use Jenkins as automation tool. In a few words, this is what should happen:
+
+ 1. The previously created branch will be merged into the Github repo's main branch
+ 2. Jenkins will be notified by Github of the new commit into the main branch and will do the following steps:
+    * Clone the new version of the main branch
+    * Build a new container image with docker build
+    * Publish the new build to Docker hub
+    * Update the Kubernetes cluster in ACS to refer to the new build with kubectl
+ 3. You can compare the URL to the application in the Kubernetes cluster both before and after doing the commit
