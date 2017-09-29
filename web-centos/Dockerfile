@@ -28,6 +28,9 @@ COPY createDB.sh /root/createDB.sh
 COPY getSqlVersion.sh /root/getSqlVersion.sh
 
 RUN chmod 755 /root/getCounter.sh
+RUN chmod 755 /root/incCounter.sh
+RUN chmod 755 /root/createDB.sh
+RUN chmod 755 /root/getSqlVersion.sh
 
 # By default start up apache in the foreground, override with /bin/bash for interative.
 CMD /usr/sbin/httpd -D FOREGROUND
