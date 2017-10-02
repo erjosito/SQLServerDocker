@@ -2,6 +2,8 @@ version: '3'
 services:
   web:
     image: erjosito/centos_httpd_php
+    environment:
+     - SQLSERVER=sqlserver
     ports:
      - "8080:80"
   sqlserver:

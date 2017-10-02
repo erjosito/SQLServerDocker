@@ -15,17 +15,6 @@
     header("Refresh: $sec; url=$page");
    ?>
 
-   <?php
-    // Increase the corresponding counter if this page was called from the buttons at the end (if the method is a POST)
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       if ($_POST["voteOption1"] == "true") {
-         exec ("/root/incCounter.sh 1 " . $sqlHost);
-       }
-       if ($_POST["voteOption2"] == "true") {
-        exec ("/root/incCounter.sh 2 " . $sqlHost);
-       }
-    }
-   ?>
 
 
     <h1>Welcome to my demo app!</h1>
@@ -57,6 +46,19 @@
               }
           ?>
       </ul>
+
+      <?php
+          // Increase the corresponding counter if this page was called from the buttons at the end (if the method is a POST)
+          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if ($_POST["voteOption1"] == "true") {
+              exec ("/root/incCounter.sh 1 " . $sqlHost);
+            }
+            if ($_POST["voteOption2"] == "true") {
+              exec ("/root/incCounter.sh 2 " . $sqlHost);
+            }
+          }
+     ?>
+
     <h2>Query to the DB</h2>
     <?php
         $value1 = exec("/root/getCounter.sh 1 " . $sqlHost . " 2>/dev/null");
