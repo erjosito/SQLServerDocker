@@ -27,21 +27,27 @@
     }
    ?>
 
-   <? php
-      // Determine the host running the DB. Check the environment variable SQLSERVER, and if it does
-      // not exist, default to "sqlserver"
-      $sqlHost = getenv('SQLSERVER');
-      if (strlen($sqlVersion)<1) {
-        $sqlHost = "sqlserver";
-      } 
-?>
 
     <h1>Welcome to my demo app!</h1>
     <h2>Container information</h2>
       <ul>
           <li>IP: <?php print $_SERVER['SERVER_ADDR']; ?></li>
           <li>Kernel info: <?php print exec('uname -a'); ?></li>
-          <li>Database reachability: <?php print exec ('ping ' . $sqlHost . ' -c 1 | tail -1'); ?></li>
+
+          <? php
+            // Determine the host running the DB. Check the environment variable SQLSERVER, and if it does
+            // not exist, default to "sqlserver"
+            $sqlHost = getenv('SQLSERVER');
+            if (strlen($sqlVersion)<1) {
+              $sqlHost = "sqlserver";
+              echo "<li>SQLSERVER environment variable not defined, defaulting to 'sqlserver'</li>\n";
+            } else {
+              echo "<li>SQLSERVER environment variable found with value: " . $sqlHost . "</li>\n";              
+            }
+          ?>
+            
+
+          <li>Database reachability (<?php echo $sqlHost; ?>): <?php print exec ('ping ' . $sqlHost . ' -c 1 | tail -1'); ?></li>
           <?php
               $sqlVersion = exec ("/root/getSqlVersion.sh ' . $sqlHost . '  2>/dev/null");
               if (strlen($sqlVersion)>1) {
