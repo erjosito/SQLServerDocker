@@ -1,16 +1,16 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: voting_sqlserver
+  name: voting-sqlserver
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: voting_sqlserver
+        app: voting-sqlserver
     spec:
       containers:
-      - name: voting_sqlserver
+      - name: voting-sqlserver
         image: microsoft/mssql-server-linux
         ports:
         - containerPort: 1433
@@ -26,17 +26,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: voting_sqlserver
+  name: voting-sqlserver
 spec:
   ports:
   - port: 1433
   selector:
-    app: voting_sqlserver
+    app: voting-sqlserver
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: voting_web
+  name: voting-web
 spec:
   replicas: 1
   strategy:
@@ -47,10 +47,10 @@ spec:
   template:
     metadata:
       labels:
-        app: voting_web
+        app: voting-web
     spec:
       containers:
-      - name: voting_web
+      - name: voting-web
         image: erjosito/centos_httpd_php
         ports:
         - containerPort: 80
@@ -61,10 +61,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: voting_web
+  name: voting-web
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: voting_web
+    app: voting-web
