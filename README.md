@@ -51,13 +51,15 @@ One of the main benefits of Linux containers is their portability. For example, 
 
 Due to the prerequisites for this lab, you probably want to prepare all this in advance. The idea here is to take the concept one step forward and have the code automatically pushed to the cloud, with no further changes. For this we will use Jenkins as automation tool. In a few words, this is what should happen:
 
- 1. The previously created branch will be merged into the Github repo's main branch 
+ 1. Launch the initial version of the application in a existing ACS cluster using the provided file (voting_sqlserver_httpd.yaml). Verify that the app is reachable, and note the labels with the old value
+    * kubectl --kubeconfig ./your-acs-kubectl-config-file create -f ./voting_sqlserver_httpd.yaml 
+ 2. The previously created branch will be merged into the Github repo's main branch 
     * git checkout master (change branch back to master)
     * git commit -a
     * git push
- 2. Jenkins will be notified by Github of the new commit into the main branch and will do the following steps:
+ 3. Jenkins will be notified by Github of the new commit into the main branch and will do the following steps:
     * Clone the new version of the main branch
     * Build a new container image with docker build
     * Publish the new build to Docker hub
     * Update the Kubernetes cluster in ACS to refer to the new build with kubectl
- 3. You can compare the URL to the application in the Kubernetes cluster both before and after doing the commit
+ 4. You can compare the URL to the application in the Kubernetes cluster both before and after doing the commit
