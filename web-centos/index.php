@@ -34,15 +34,15 @@
           <li>IP: <?php print $_SERVER['SERVER_ADDR']; ?></li>
           <li>Kernel info: <?php print exec('uname -a'); ?></li>
 
-          <? php
+          <?php
             // Determine the host running the DB. Check the environment variable SQLSERVER, and if it does
             // not exist, default to "sqlserver"
             $sqlHost = getenv('SQLSERVER');
-            if (strlen($sqlVersion)<1) {
+            if (strlen($sqlHost)>1) {
+              echo "<li>SQLSERVER environment variable found with value: " . $sqlHost . "</li>\n";              
+            } else {
               $sqlHost = "sqlserver";
               echo "<li>SQLSERVER environment variable not defined, defaulting to 'sqlserver'</li>\n";
-            } else {
-              echo "<li>SQLSERVER environment variable found with value: " . $sqlHost . "</li>\n";              
             }
           ?>
             
