@@ -1,0 +1,75 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: voting_sqlserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: voting_sqlserver
+    spec:
+      containers:
+      - name: voting_sqlserver
+        image: microsoft/mssql-server-linux
+        ports:
+        - containerPort: 1433
+          name: redis
+      env:
+      - name: ACCEPT_EULA
+        value: "Y"
+      - name: MSSQL_SA_PASSWORD
+        value: Microsoft123!
+      - name: MSSQL_PID
+        value: Developer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting_sqlserver
+spec:
+  ports:
+  - port: 1433
+  selector:
+    app: voting_sqlserver
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: voting_web
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: voting_web
+    spec:
+      containers:
+      - name: voting_web
+        image: erjosito/centos_httpd_php
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        env:
+        - name: SQLSERVER
+          value: "voting-sqlserver"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-front
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: azure-vote-front

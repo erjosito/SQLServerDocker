@@ -45,9 +45,11 @@
     <?php
         $value1 = exec("/root/getCounter.sh 1 2>/dev/null");
         if (strlen($value1) < 1) {
-          exec("/root/createDB.sh");
-          echo "<p>Database has been initialized</p>\n";
+          echo "<p>Initializing database...</p>\n";
           usleep (500);
+          exec("/root/createDB.sh");
+          usleep (500);
+          $value1 = exec("/root/getCounter.sh 1 2>/dev/null");
         }
         $value2 = exec("/root/getCounter.sh 2 2>/dev/null");
         if (strlen($value2) < 1) {
