@@ -47,13 +47,13 @@
           ?>
             
 
-          <li>Database reachability (<?php echo $sqlHost; ?>): <?php print exec ('ping ' . $sqlHost . ' -c 1 | tail -1'); ?></li>
+          <!-- <li>Database reachability (<?php echo $sqlHost; ?>): <?php print exec ('ping ' . $sqlHost . ' -c 1 | tail -1'); ?></li> -->
           <?php
-              $sqlVersion = exec ("/root/getSqlVersion.sh ' . $sqlHost . '  2>/dev/null");
+              $sqlVersion = exec ("/root/getSqlVersion.sh " . $sqlHost . "  2>/dev/null");
               if (strlen($sqlVersion)>1) {
-                echo "<li>SQL Server Version: " . $sqlVersion . "</li>\n";
+                echo "<li>SQL Server Version (" . $sqlHost . "): " . $sqlVersion . "</li>\n";
               } else {
-                echo "<li>SQL Server version could not be retrieved</li>\n";
+                echo "<li>SQL Server version from " . $sqlHost . " could not be retrieved</li>\n";
               }
           ?>
       </ul>
