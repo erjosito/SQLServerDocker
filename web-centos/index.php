@@ -35,10 +35,8 @@
             }
           ?>
             
-
-          <!-- <li>Database reachability (<?php echo $sqlHost; ?>): <?php print exec ('ping ' . $sqlHost . ' -c 1 | tail -1'); ?></li> -->
           <?php
-              $sqlVersion = exec ("/root/getSqlVersion.sh " . $sqlHost . "  2>/dev/null");
+              $sqlVersion = exec ("/root/getSqlVersion.sh " . $sqlHost . " 2>/dev/null");
               if (strlen($sqlVersion)>1) {
                 echo "<li>SQL Server Version (" . $sqlHost . "): " . $sqlVersion . "</li>\n";
               } else {
@@ -61,6 +59,7 @@
 
     <h2>Query to the DB</h2>
     <?php
+        // Try to increase one of the counters, to see if the DB is there
         $value1 = exec("/root/getCounter.sh 1 " . $sqlHost . " 2>/dev/null");
         if (strlen($value1) < 1) {
           echo "<p>Initializing database...</p>\n";
