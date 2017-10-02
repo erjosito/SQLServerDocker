@@ -1,1 +1,1 @@
-/opt/mssql-tools/bin/sqlcmd -S sqlserver -U SA -P Microsoft123! -d Voting -Q "set nocount on; UPDATE Voting SET Number=Number+1 WHERE Name='Option$1'" -h -1 -W
+/opt/mssql-tools/bin/sqlcmd -S $2 -U SA -P Microsoft123! -d Voting -Q "set nocount on; UPDATE Voting SET Number=Number+1 WHERE Name='Option$1'" -h -1 -W
