@@ -15,13 +15,13 @@ spec:
         ports:
         - containerPort: 1433
           name: redis
-      env:
-      - name: ACCEPT_EULA
-        value: "Y"
-      - name: MSSQL_SA_PASSWORD
-        value: Microsoft123!
-      - name: MSSQL_PID
-        value: Developer
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_SA_PASSWORD
+          value: Microsoft123!
+        - name: MSSQL_PID
+          value: Developer
 ---
 apiVersion: v1
 kind: Service
@@ -54,11 +54,6 @@ spec:
         image: erjosito/centos_httpd_php
         ports:
         - containerPort: 80
-        resources:
-          requests:
-            cpu: 250m
-          limits:
-            cpu: 500m
         env:
         - name: SQLSERVER
           value: "voting-sqlserver"
@@ -66,10 +61,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: azure-vote-front
+  name: voting_web
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: azure-vote-front
+    app: voting_web
