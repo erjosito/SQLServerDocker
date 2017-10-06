@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: erjosito/centos_httpd_php
+    image: centos_httpd_php
     environment:
      - SQLSERVER=sqlserver
     ports:
