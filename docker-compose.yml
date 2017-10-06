@@ -7,7 +7,7 @@ services:
     ports:
      - "8080:80"
   sqlserver:
-    image: "microsoft/mssql-server-linux"
+    image: "microsoft/mssql-server-linux:2017-latest"
     environment:
      - ACCEPT_EULA=Y
      - MSSQL_SA_PASSWORD=Microsoft123!
