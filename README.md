@@ -1,10 +1,21 @@
+
 # SQL Server on a Linux Container Demo
 
-This repository contains some scripts that can be used to demonstrate the portability of Linux containers using Microsoft SQL Server. Overall, the demo would follow these steps:
+This repository contains some scripts that can be used to demonstrate the portability of Linux containers using Microsoft SQL Server.
+
+## Why this demo?
+
+Some people are still skeptical about Microsoft's support for open source technologies. The goal of this demo is to combine some Microsoft technologies (SQL Server, Azure, Windows 10) with some open source technologies (Docker, Jenkins, Kubernetes) in a simple way.
+
+The idea is not explaining exactly what Jenkins does or how Kubernetes works, but proving the point that Microsoft technologies help IT professionals with an open source focus as well.
+
+## Demo flow
+
+Overall, the demo would follow these steps:
 
 1. Concepts: launching the container on a Windows laptop (docker run)
 2. App packaging with docker-compose: launching the example app on a Windows laptop (docker-compose up)
-3. Collaboration across multiple OS: branching out the Github repo on a Mac, changing something and committing back
+3. Collaboration across multiple OS: branching out the Github repo on a Mac, changing something and committing back. In order to reduce complexity or time, you could skip this step and just do a commit with the Github deskop app from the Windows laptop and move over to step 4. 
 4. CI/CD to Azure: merging back the branch, and using Jenkins to publish the app to an Azure Container Services cluster
 
 The following paragraphs offer additional details on how to demonstrate each one of the previous points 
@@ -63,3 +74,17 @@ Due to the prerequisites for this lab, you probably want to prepare all this in 
     * Publish the new build to Docker hub
     * Update the Kubernetes cluster in ACS to refer to the new build with kubectl
  4. You can compare the URL to the application in the Kubernetes cluster both before and after doing the commit
+
+ For completeness, here the Build "Execute shell" tasks that Jenkins executes upon a Github commit:
+
+```
+WEB_IMAGE_NAME="your_dockerhub_repo/centos_httpd_php:build${BUILD_NUMBER}"
+docker build -t $WEB_IMAGE_NAME web-centos/.
+docker login -u erjosito -p ${DOCKER_HUB}
+docker push $WEB_IMAGE_NAME
+```
+
+```
+WEB_IMAGE_NAME="your_dockerhub_repo/centos_httpd_php:build${BUILD_NUMBER}"
+/usr/local/bin/kubectl set image deployment/voting-web voting-web=$WEB_IMAGE_NAME --kubeconfig /var/lib/jenkins/myacs.config
+```
