@@ -77,12 +77,16 @@ Due to the prerequisites for this lab, you probably want to prepare all this in 
 
  For completeness, here the Build "Execute shell" tasks that Jenkins executes upon a Github commit:
 
+The first task builds a new container image and pushes it into Docker Hub. It assumes that you have defined the environment variable `DOCKER_HUB_PASSWD` in Jenkins:
+
 ```
 WEB_IMAGE_NAME="your_dockerhub_repo/centos_httpd_php:build${BUILD_NUMBER}"
 docker build -t $WEB_IMAGE_NAME web-centos/.
-docker login -u erjosito -p ${DOCKER_HUB}
+docker login -u your_dockerhub_username -p ${DOCKER_HUB_PASSWD}
 docker push $WEB_IMAGE_NAME
 ```
+
+The second task updates an existing deployment in a Kubernetes cluster with the image built in the previous step. It assumes that the kubectl configuration file has been stored in the path  `/var/lib/jenkins/myacs.config`:
 
 ```
 WEB_IMAGE_NAME="your_dockerhub_repo/centos_httpd_php:build${BUILD_NUMBER}"
