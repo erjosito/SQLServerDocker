@@ -4,8 +4,8 @@
   </header>
   <body>
     <?php
-      $label1 = "Elephants";
-      $label2 = "Mice";
+      $label1 = "Ralph";
+      $label2 = "Jose";
       $question = "What do you like better?";
     ?>
 
